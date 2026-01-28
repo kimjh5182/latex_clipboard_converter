@@ -9,6 +9,7 @@ class MenuBarController: NSObject {
     private var launchAtLoginMenuItem: NSMenuItem?
     private var isProcessing = false
     private var processingTimer: Timer?
+    private var spinnerIndex = 0
     
     init(monitor: ClipboardMonitor) {
         self.monitor = monitor
@@ -123,19 +124,17 @@ class MenuBarController: NSObject {
         let alert = NSAlert()
         alert.messageText = "LaTeX Clipboard Converter"
         alert.informativeText = """
-        Version 1.1.0
+        Version 1.2.0
         
-        Automatically converts LaTeX formula images in your clipboard to LaTeX code.
+        Automatically converts LaTeX formula images in your clipboard to LaTeX code using Pix2Tex.
         
-        Supported engines:
-        • SimpleTex (free, online)
-        • Pix2Tex (free, local)
-        • Claude Vision API (paid)
+        Supported engine:
+        • Pix2Tex (Free, Local & Smart)
         
         —
         
         Thank you for always loving me, Yeonsu.
-        I hope this helps you with your studies, even if just a little.
+        I hope this helps you with your studies, even if just a little. 🐾
         """
         alert.alertStyle = .informational
         alert.addButton(withTitle: "OK")
@@ -157,21 +156,14 @@ class MenuBarController: NSObject {
             return
         }
         
-        let symbolName = settings.isEnabled ? "function" : "function.circle"
-        if let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "LaTeX Converter") {
-            image.isTemplate = true
+        // 고양이 발바닥(pawprint) 테마 적용
+        let symbolName = settings.isEnabled ? "pawprint.fill" : "pawprint"
+        if let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "Smart Cat LaTeX") {
+            image.isTemplate = true // 시스템 테마에 맞춰 색상 자동 변경
             statusItem?.button?.image = image
             statusItem?.button?.title = ""
         }
     }
-    
-    private let spinnerFrames = [
-        "circle.dotted",
-        "arrow.trianglehead.2.clockwise.rotate.90",
-        "arrow.triangle.2.circlepath",
-        "progress.indicator"
-    ]
-    private var spinnerIndex = 0
     
     func setProcessing(_ processing: Bool) {
         isProcessing = processing
@@ -179,9 +171,10 @@ class MenuBarController: NSObject {
         
         if processing {
             spinnerIndex = 0
-            processingTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { [weak self] _ in
+            processingTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] _ in
                 guard let self = self else { return }
-                let frames = ["◐", "◓", "◑", "◒"]
+                // 돋보기로 스캔하는 고양이 눈/돋보기 이모지 조합으로 애니메이션 효과
+                let frames = ["🔍", "🐱", "✨", "🎓"]
                 self.spinnerIndex = (self.spinnerIndex + 1) % frames.count
                 self.statusItem?.button?.image = nil
                 self.statusItem?.button?.title = frames[self.spinnerIndex]

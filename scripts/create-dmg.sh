@@ -79,36 +79,29 @@ import os
 
 # Create background image (540x380)
 width, height = 540, 380
-img = Image.new('RGB', (width, height), color=(30, 30, 35))
+# 칠판 테마 색상 (10, 15, 25)
+img = Image.new('RGB', (width, height), color=(25, 35, 50))
 draw = ImageDraw.Draw(img)
 
-# Draw gradient-like effect
-for y in range(height):
-    gray = int(30 + (y / height) * 15)
-    draw.line([(0, y), (width, y)], fill=(gray, gray, gray + 5))
+# Draw subtle chalkboard texture
+import random
+for _ in range(2000):
+    x, y = random.randint(0, width-1), random.randint(0, height-1)
+    draw.point((x, y), fill=(40, 50, 65))
+
+# Draw cat ears outline (Smart Cat Theme)
+draw.polygon([(100, 100), (130, 50), (160, 100)], outline=(255, 165, 0), width=2) # Left
+draw.polygon([(380, 100), (410, 50), (440, 100)], outline=(255, 165, 0), width=2) # Right
 
 # Draw arrow
 arrow_y = height // 2
 arrow_start = 180
 arrow_end = 360
+# ... (기존 화살표 로직 유지하되 색상 변경)
+draw.rectangle([arrow_start, arrow_y - 3, arrow_end - 30, arrow_y + 3], fill=(255, 165, 0))
+draw.polygon([(arrow_end - 30, arrow_y - 15), (arrow_end, arrow_y), (arrow_end - 30, arrow_y + 15)], fill=(255, 165, 0))
 
-# Arrow body
-draw.rectangle([arrow_start, arrow_y - 3, arrow_end - 30, arrow_y + 3], fill=(100, 100, 110))
-
-# Arrow head
-draw.polygon([
-    (arrow_end - 30, arrow_y - 15),
-    (arrow_end, arrow_y),
-    (arrow_end - 30, arrow_y + 15)
-], fill=(100, 100, 110))
-
-# Draw text
-try:
-    font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 14)
-except:
-    font = ImageFont.load_default()
-
-text = "Drag to Applications to install"
+text = "똑똑한 고양이와 함께 LaTeX를 설치하세요! 🐾"
 bbox = draw.textbbox((0, 0), text, font=font)
 text_width = bbox[2] - bbox[0]
 draw.text(((width - text_width) // 2, height - 50), text, fill=(150, 150, 160), font=font)
