@@ -25,7 +25,12 @@ class MenuBarController: NSObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let button = statusItem?.button {
-            button.title = "LaTeX"
+            if let image = NSImage(systemSymbolName: "function", accessibilityDescription: "LaTeX Converter") {
+                image.isTemplate = true
+                button.image = image
+            } else {
+                button.title = "ƒ"
+            }
             print("[MenuBarController] Status item button created")
         }
         print("[MenuBarController] Status item created: \(statusItem != nil)")
@@ -118,7 +123,7 @@ class MenuBarController: NSObject {
         let alert = NSAlert()
         alert.messageText = "LaTeX Clipboard Converter"
         alert.informativeText = """
-        Version 1.0.0
+        Version 1.1.0
         
         Automatically converts LaTeX formula images in your clipboard to LaTeX code.
         
@@ -151,21 +156,38 @@ class MenuBarController: NSObject {
         if isProcessing {
             return
         }
-        statusItem?.button?.title = settings.isEnabled ? "LaTeX" : "[LaTeX]"
+        
+        let symbolName = settings.isEnabled ? "function" : "function.circle"
+        if let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "LaTeX Converter") {
+            image.isTemplate = true
+            statusItem?.button?.image = image
+            statusItem?.button?.title = ""
+        }
     }
+    
+    private let spinnerFrames = [
+        "circle.dotted",
+        "arrow.trianglehead.2.clockwise.rotate.90",
+        "arrow.triangle.2.circlepath",
+        "progress.indicator"
+    ]
+    private var spinnerIndex = 0
     
     func setProcessing(_ processing: Bool) {
         isProcessing = processing
         processingTimer?.invalidate()
         
         if processing {
-            var dotCount = 0
-            processingTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { [weak self] _ in
-                dotCount = (dotCount + 1) % 4
-                let dots = String(repeating: ".", count: dotCount)
-                self?.statusItem?.button?.title = "LaTeX" + dots
+            spinnerIndex = 0
+            processingTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+                let frames = ["◐", "◓", "◑", "◒"]
+                self.spinnerIndex = (self.spinnerIndex + 1) % frames.count
+                self.statusItem?.button?.image = nil
+                self.statusItem?.button?.title = frames[self.spinnerIndex]
             }
         } else {
+            statusItem?.button?.title = ""
             updateStatusTitle()
         }
     }
