@@ -9,9 +9,6 @@ class SettingsManager {
     private enum Keys {
         static let isEnabled = "isEnabled"
         static let pollingInterval = "pollingInterval"
-        static let converterType = "converterType"
-        static let claudeApiKey = "claudeApiKey"
-        static let simpleTexToken = "simpleTexToken"
         static let launchAtLogin = "launchAtLogin"
     }
     
@@ -26,21 +23,6 @@ class SettingsManager {
             return interval > 0 ? interval : 0.5
         }
         set { defaults.set(newValue, forKey: Keys.pollingInterval) }
-    }
-    
-    var converterType: String {
-        get { defaults.string(forKey: Keys.converterType) ?? "claude" }
-        set { defaults.set(newValue, forKey: Keys.converterType) }
-    }
-    
-    var claudeApiKey: String? {
-        get { defaults.string(forKey: Keys.claudeApiKey) }
-        set { defaults.set(newValue, forKey: Keys.claudeApiKey) }
-    }
-    
-    var simpleTexToken: String? {
-        get { defaults.string(forKey: Keys.simpleTexToken) }
-        set { defaults.set(newValue, forKey: Keys.simpleTexToken) }
     }
     
     var launchAtLogin: Bool {
@@ -74,7 +56,6 @@ class SettingsManager {
         if !defaults.bool(forKey: "hasInitialized") {
             isEnabled = true
             pollingInterval = 0.5
-            converterType = "claude"
             defaults.set(true, forKey: "hasInitialized")
         }
     }

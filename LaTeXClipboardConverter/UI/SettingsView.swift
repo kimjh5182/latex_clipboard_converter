@@ -40,20 +40,13 @@ struct PastableTextField: NSViewRepresentable {
 }
 
 struct SettingsView: View {
-    @State private var claudeApiKey: String = ""
-    @State private var simpleTexToken: String = ""
-    @State private var converterType: String = "claude"
     @State private var launchAtLogin: Bool = false
     @State private var pollingInterval: Double = 0.5
-    @State private var showAlert: Bool = false
-    @State private var alertMessage: String = ""
-    @State private var isTestingAPI: Bool = false
     
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         VStack(spacing: 0) {
-            // Title
             Text("Settings")
                 .font(.title2)
                 .fontWeight(.semibold)
@@ -62,71 +55,30 @@ struct SettingsView: View {
             
             Divider()
             
-            // Content
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Conversion Engine
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Conversion Engine")
                             .font(.headline)
                         
-                        Picker("Engine:", selection: $converterType) {
-                            Text("SimpleTex (Free, Online)").tag("simpletex")
-                            Text("Pix2Tex (Free, Local)").tag("pix2tex")
-                            Text("Claude Vision API (Paid)").tag("claude")
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                            Text("Pix2Tex (Free, Local)")
+                                .font(.system(size: 14, weight: .medium))
                         }
-                        .pickerStyle(.radioGroup)
-                    }
-                    
-                    Divider()
-                    
-                    // API Configuration
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("API Configuration")
-                            .font(.headline)
                         
-                        if converterType == "simpletex" {
-                            VStack(alignment: .leading, spacing: 4) {
-                                TextEditor(text: $simpleTexToken)
-                                    .font(.system(size: 12, design: .monospaced))
-                                    .frame(height: 60)
-                                    .border(Color.gray.opacity(0.3), width: 1)
-                                
-                                Text("Get token: simpletex.net/user/center > User Authorization Token")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        } else if converterType == "pix2tex" {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("No API key needed!")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(.green)
-                                
-                                Text("Pix2Tex runs locally on your Mac. First run may be slow (downloading model).")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                
-                                Text("Requires: pip3 install pix2tex")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        } else {
-                            VStack(alignment: .leading, spacing: 4) {
-                                TextEditor(text: $claudeApiKey)
-                                    .font(.system(size: 12, design: .monospaced))
-                                    .frame(height: 60)
-                                    .border(Color.gray.opacity(0.3), width: 1)
-                                
-                                Text("Get key: console.anthropic.com")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        }
+                        Text("Runs locally on your Mac. First run may be slow (downloading model).")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Text("Requires: pip3 install pix2tex")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                     
                     Divider()
                     
-                    // Preferences
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Preferences")
                             .font(.headline)
@@ -154,7 +106,6 @@ struct SettingsView: View {
             
             Divider()
             
-            // Buttons
             HStack(spacing: 12) {
                 Button("Cancel") {
                     presentationMode.wrappedValue.dismiss()
@@ -170,7 +121,7 @@ struct SettingsView: View {
             }
             .padding()
         }
-        .frame(width: 500, height: 450)
+        .frame(width: 400, height: 320)
         .onAppear {
             loadSettings()
         }
@@ -178,32 +129,16 @@ struct SettingsView: View {
     
     private func loadSettings() {
         let settings = SettingsManager.shared
-        claudeApiKey = settings.claudeApiKey ?? ""
-        simpleTexToken = settings.simpleTexToken ?? ""
-        converterType = settings.converterType
         launchAtLogin = settings.launchAtLogin
         pollingInterval = settings.pollingInterval
     }
     
     private func saveSettings() {
         let settings = SettingsManager.shared
-        let converterChanged = settings.converterType != converterType
-        
-        settings.claudeApiKey = claudeApiKey.isEmpty ? nil : claudeApiKey
-        settings.simpleTexToken = simpleTexToken.isEmpty ? nil : simpleTexToken
-        settings.converterType = converterType
         settings.launchAtLogin = launchAtLogin
         settings.pollingInterval = pollingInterval
         
-        print("[SettingsView] Settings saved, converter: \(converterType)")
-        
-        if converterChanged {
-            if let appDelegate = NSApp.delegate as? AppDelegate {
-                appDelegate.updateConverter()
-                print("[SettingsView] Converter hot-reloaded to: \(converterType)")
-            }
-        }
-        
+        print("[SettingsView] Settings saved")
         presentationMode.wrappedValue.dismiss()
     }
 }

@@ -15,11 +15,10 @@
 	0000000B /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000C; };
 	0000000D /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000E; };
 	0000000F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00000010; };
+	00000043 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000044; };
 	00000030 /* LatexConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000031; };
-	00000032 /* ClaudeLatexConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000033; };
 	00000035 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000036; };
 	00000037 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000038; };
-	0000003B /* SimpleTexConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000003C; };
 	0000003D /* Pix2TexConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000003E; };
 	0000003F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000040; };
 	00000041 /* LaunchAtLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000042; };
@@ -38,13 +37,12 @@
 	00000011 /* LaTeXClipboardConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaTeXClipboardConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 	00000012 /* LaTeXClipboardConverter */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LaTeXClipboardConverter; sourceTree = SOURCE_ROOT; };
 	00000031 /* LatexConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexConverter.swift; sourceTree = "<group>"; };
-	00000033 /* ClaudeLatexConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeLatexConverter.swift; sourceTree = "<group>"; };
 	00000036 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 	00000038 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
-	0000003C /* SimpleTexConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTexConverter.swift; sourceTree = "<group>"; };
 	0000003E /* Pix2TexConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pix2TexConverter.swift; sourceTree = "<group>"; };
 	00000040 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 	00000042 /* LaunchAtLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginHelper.swift; sourceTree = "<group>"; };
+	00000044 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 	/* End PBXFileReference section */
 
 	/* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				00000010 /* Info.plist */,
+				00000044 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -123,8 +122,6 @@
 		isa = PBXGroup;
 		children = (
 			00000031 /* LatexConverter.swift */,
-			00000033 /* ClaudeLatexConverter.swift */,
-			0000003C /* SimpleTexConverter.swift */,
 			0000003E /* Pix2TexConverter.swift */,
 		);
 		path = Converters;
@@ -205,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0000000F /* Info.plist in Resources */,
+				00000043 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +222,8 @@
 			0000000B /* MenuBarController.swift in Sources */,
 			0000000D /* SettingsManager.swift in Sources */,
 		00000030 /* LatexConverter.swift in Sources */,
-		00000032 /* ClaudeLatexConverter.swift in Sources */,
 		00000035 /* SettingsView.swift in Sources */,
 		00000037 /* SettingsWindowController.swift in Sources */,
-		0000003B /* SimpleTexConverter.swift in Sources */,
 		0000003D /* Pix2TexConverter.swift in Sources */,
 		0000003F /* NotificationManager.swift in Sources */,
 		00000041 /* LaunchAtLoginHelper.swift in Sources */,
@@ -374,7 +370,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.LaTeXClipboardConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -403,7 +399,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.LaTeXClipboardConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

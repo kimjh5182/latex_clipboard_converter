@@ -28,29 +28,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             clipboardMonitor?.startMonitoring()
         }
         
-        print("[AppDelegate] Application launched with converter: \(settings.converterType)")
+        print("[AppDelegate] Application launched with Pix2Tex converter")
     }
     
     private func createConverter() -> LatexConverter {
-        let converterType = SettingsManager.shared.converterType
-        switch converterType {
-        case "simpletex":
-            print("[AppDelegate] Using SimpleTex converter")
-            return SimpleTexConverter()
-        case "pix2tex":
-            print("[AppDelegate] Using Pix2Tex converter (local)")
-            return Pix2TexConverter()
-        case "claude":
-            print("[AppDelegate] Using Claude converter")
-            return ClaudeLatexConverter()
-        default:
-            print("[AppDelegate] Using default SimpleTex converter")
-            return SimpleTexConverter()
-        }
-    }
-    
-    func updateConverter() {
-        latexConverter = createConverter()
+        print("[AppDelegate] Using Pix2Tex converter (local)")
+        return Pix2TexConverter()
     }
     
     private func setupEditMenu() {

@@ -1,164 +1,125 @@
 # LaTeX Clipboard Converter - Build Summary
 
-## ✅ Project Successfully Created and Built
+## Project Status: ✅ Complete
 
 ### Project Location
 - **Path**: `/Users/moldkim/Documents/latex-clipboard-converter/`
 - **Xcode Project**: `LaTeXClipboardConverter.xcodeproj`
-- **Build Output**: `/Users/moldkim/Library/Developer/Xcode/DerivedData/LaTeXClipboardConverter-*/Build/Products/Debug/LaTeXClipboardConverter.app`
-
-### Build Status
-- **Status**: ✅ BUILD SUCCEEDED
-- **Build Command**: `xcodebuild -project LaTeXClipboardConverter.xcodeproj -scheme LaTeXClipboardConverter build`
 - **Target**: macOS 11.0+
-- **Architecture**: arm64 (Apple Silicon)
+
+## Build Commands
+
+### Development Build
+```bash
+xcodebuild -project LaTeXClipboardConverter.xcodeproj \
+           -scheme LaTeXClipboardConverter \
+           -configuration Debug \
+           build
+```
+
+### Release Build
+```bash
+xcodebuild -project LaTeXClipboardConverter.xcodeproj \
+           -scheme LaTeXClipboardConverter \
+           -configuration Release \
+           build
+```
+
+### Create DMG
+```bash
+./scripts/create-dmg.sh
+```
 
 ## Project Structure
 
 ```
 LaTeXClipboardConverter/
 ├── LaTeXClipboardConverter.xcodeproj/
-│   ├── project.pbxproj
-│   └── xcshareddata/xcschemes/LaTeXClipboardConverter.xcscheme
 ├── LaTeXClipboardConverter/
 │   ├── App/
 │   │   ├── AppDelegate.swift
-│   │   └── LaTeXClipboardConverterApp.swift
+│   │   ├── LaTeXClipboardConverterApp.swift
+│   │   └── main.swift
 │   ├── Core/
 │   │   ├── ClipboardMonitor.swift
 │   │   ├── ImageAnalyzer.swift
 │   │   └── ClipboardWriter.swift
+│   ├── Converters/
+│   │   ├── LatexConverter.swift
+│   │   └── Pix2TexConverter.swift
 │   ├── UI/
-│   │   └── MenuBarController.swift
+│   │   ├── MenuBarController.swift
+│   │   ├── SettingsView.swift
+│   │   └── SettingsWindowController.swift
 │   ├── Utilities/
-│   │   └── SettingsManager.swift
-│   ├── Resources/
-│   │   └── Info.plist
-│   ├── Converters/ (placeholder for future)
-│   └── Extensions/ (placeholder for future)
+│   │   ├── SettingsManager.swift
+│   │   ├── NotificationManager.swift
+│   │   └── LaunchAtLoginHelper.swift
+│   └── Resources/
+│       └── Info.plist
+├── scripts/
+│   └── create-dmg.sh
+├── README.md
+├── USAGE_GUIDE.md
 └── ARCHITECTURE.md
 ```
 
 ## Implemented Components
 
-### 1. ClipboardMonitor.swift ✅
-- **Polling Interval**: 0.5 seconds (configurable)
-- **Detection Method**: NSPasteboard.changeCount polling
-- **Features**:
-  - Efficient change detection (only checks changeCount, not content)
-  - Image extraction from clipboard
-  - Support for NSImage and file URLs
-  - Callback mechanism for clipboard changes
-  - Proper memory management with weak self in closures
-  - Start/stop monitoring control
+### ClipboardMonitor.swift
+- NSPasteboard.changeCount polling
+- Configurable polling interval
+- Image extraction from clipboard
+- Callback mechanism for changes
 
-### 2. MenuBarController.swift ✅
-- **Status Bar Integration**: NSStatusBar with NSStatusItem
-- **Menu Items**:
-  - Enable/Disable toggle (✓ Enabled / ☐ Disabled)
-  - Settings menu item
-  - About menu item
-  - Quit menu item
-- **Features**:
-  - Dynamic menu state updates
-  - Icon changes based on enabled/disabled state (📐 / 📐̸)
-  - Proper NSObject inheritance for Objective-C interop
-  - Menu delegate for state synchronization
+### MenuBarController.swift
+- SF Symbols icon (`ƒ`)
+- Spinner animation during processing
+- Enable/Disable toggle
+- Launch at Login option
+- Settings window access
 
-### 3. AppDelegate.swift ✅
-- **Entry Point**: @main attribute
-- **Lifecycle Management**:
-  - Application launch initialization
-  - Clipboard monitor setup
-  - Menu bar controller initialization
-  - Proper shutdown handling
-- **Features**:
-  - Clipboard change callback handling
-  - Settings-based monitoring control
-  - Graceful termination
+### Pix2TexConverter.swift
+- Local Python execution
+- Temp file management
+- Error handling for missing dependencies
+- Async conversion
 
-### 4. SettingsManager.swift ✅
-- **Storage**: UserDefaults
-- **Managed Settings**:
-  - `isEnabled`: Monitoring enabled/disabled state
-  - `pollingInterval`: Clipboard check interval (default 0.5s)
-  - `converterType`: Selected converter (default "claude")
-- **Features**:
-  - Singleton pattern
-  - Automatic initialization with defaults
-  - Persistent storage
+### SettingsManager.swift
+- UserDefaults storage
+- Polling interval setting
+- Launch at login preference
 
-### 5. Supporting Classes ✅
-- **ImageAnalyzer.swift**: Image validation and formula detection (MVP stub)
-- **ClipboardWriter.swift**: Write LaTeX and images back to clipboard
-- **LaTeXClipboardConverterApp.swift**: SwiftUI app structure
+### NotificationManager.swift
+- Success notifications
+- Error notifications
+- Setup required dialogs
 
-## Key Implementation Details
+## Requirements
 
-### NSPasteboard Monitoring Pattern
-```swift
-private var lastChangeCount = NSPasteboard.general.changeCount
-private var timer: Timer?
+### User Requirements
+- macOS 11.0+
+- Python 3.8+
+- pix2tex (`pip3 install pix2tex`)
 
-func startMonitoring() {
-    timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-        let currentCount = NSPasteboard.general.changeCount
-        if currentCount != self?.lastChangeCount {
-            self?.lastChangeCount = currentCount
-            self?.handleClipboardChange()
-        }
-    }
-}
-```
+### Build Requirements
+- Xcode 15+
+- macOS 13+ (for building)
 
-### Memory Management
-- ✅ Weak self in Timer closures
-- ✅ Proper timer invalidation on stop
-- ✅ NSObject inheritance for MenuBarController
-- ✅ No circular references
+## Features
 
-### Error Handling
-- ✅ Guard statements for state validation
-- ✅ Safe optional unwrapping
-- ✅ Graceful fallbacks for missing images
-
-## Build Verification
-
-### Clean Build Test
-```bash
-xcodebuild -project LaTeXClipboardConverter.xcodeproj -scheme LaTeXClipboardConverter clean build
-```
-**Result**: ✅ BUILD SUCCEEDED
-
-### Build Artifacts
-- ✅ LaTeXClipboardConverter.app (executable)
-- ✅ LaTeXClipboardConverter.swiftmodule (module metadata)
-- ✅ Info.plist (app configuration)
-- ✅ Code signature (_CodeSignature)
-
-## Next Steps (Task 2)
-
-The foundation is ready for:
-1. ✅ Clipboard monitoring system
-2. ✅ Menu bar UI with enable/disable toggle
-3. ✅ App lifecycle management
-4. ⏳ LaTeX conversion integration (Claude Vision API)
-5. ⏳ Settings window UI
-6. ⏳ Notification system
-
-## Architecture Compliance
-
-✅ Follows ARCHITECTURE.md design:
-- Modular component structure
-- Proper separation of concerns
-- NSPasteboard polling implementation
-- Menu bar integration
-- Settings management
-- Memory-efficient design
+- ✅ Menu bar integration with SF Symbols
+- ✅ Clipboard monitoring
+- ✅ Pix2Tex local conversion
+- ✅ Settings window
+- ✅ Launch at login
+- ✅ Processing animation
+- ✅ Error handling
+- ✅ Notifications
 
 ## Notes
 
-- Minor warning about Info.plist in Copy Bundle Resources phase (non-critical)
-- App is ready for API integration in next phase
-- All core infrastructure is in place and tested
-- Build is reproducible and clean
+- All processing happens locally
+- No API keys required
+- First run downloads pix2tex model (~500MB)
+- Privacy-focused design
