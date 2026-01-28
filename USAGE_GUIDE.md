@@ -11,6 +11,7 @@ pip3 install pix2tex
 ```
 
 설치 확인:
+
 ```bash
 python3 -c "from pix2tex.cli import LatexOCR; print('OK')"
 ```
@@ -19,25 +20,31 @@ python3 -c "from pix2tex.cli import LatexOCR; print('OK')"
 
 앱을 실행하면 메뉴바에 `ƒ` 아이콘이 나타납니다.
 
-### 3. 사용하기
+### 4. 보안 경고 해결 (최초 1회)
 
-1. LaTeX 수식이 포함된 이미지를 스크린샷으로 캡처 (⌘⇧4)
-2. 자동으로 LaTeX 코드로 변환됨 (스피너 애니메이션 표시)
-3. 원하는 곳에 붙여넣기 (⌘V)
+Apple 등록 개발자 인증서가 없는 경우 "악성 코드가 없음을 확인할 수 없습니다"라는 경고가 뜰 수 있습니다.
+
+1. 앱을 **마우스 오른쪽 버튼(또는 Control + 클릭)**으로 누릅니다.
+2. 메뉴에서 **[열기]**를 선택합니다.
+3. 팝업창에서 다시 한 번 **[열기]**를 누르면 이후부터는 정상적으로 실행됩니다.
+4. 또는 **시스템 설정 > 개인정보 보호 및 보안**에서 아래쪽의 **[확인 없이 열기]**를 클릭하세요.
 
 ## 상세 가이드
 
 ### 메뉴 설명
 
 #### ✓ Enabled / Disabled
+
 - 클립보드 모니터링 활성화/비활성화
 - 비활성화하면 배터리 절약
 
 #### Launch at Login
+
 - 로그인 시 자동 실행
 - macOS 13 이상 필요
 
 #### Settings...
+
 - 폴링 간격 조정 (0.1~2.0초)
 - 기본값: 0.5초
 
@@ -69,6 +76,7 @@ python3 -c "from pix2tex.cli import LatexOCR; print('OK')"
 **증상**: 이미지를 캡처해도 변환되지 않음
 
 **해결 방법**:
+
 1. 메뉴에서 "✓ Enabled" 확인
 2. pix2tex 설치 확인: `pip3 show pix2tex`
 3. 폴링 간격을 0.5초로 설정
@@ -79,6 +87,7 @@ python3 -c "from pix2tex.cli import LatexOCR; print('OK')"
 **증상**: "Python not installed" 에러
 
 **해결 방법**:
+
 ```bash
 # Homebrew로 Python 설치
 brew install python3
@@ -91,6 +100,7 @@ brew install python3
 **증상**: "pix2tex not found" 에러
 
 **해결 방법**:
+
 ```bash
 pip3 install pix2tex
 
@@ -103,6 +113,7 @@ python3.11 -m pip install pix2tex
 **증상**: LaTeX 코드가 원본과 다름
 
 **해결 방법**:
+
 1. 더 선명한 이미지로 다시 시도
 2. 수식만 캡처 (주변 텍스트 제외)
 3. 표준 LaTeX 표기법 사용
@@ -112,15 +123,18 @@ python3.11 -m pip install pix2tex
 
 #### 폴링 간격 조정
 
-**0.1초**: 
+**0.1초**:
+
 - 장점: 즉각적인 반응
 - 단점: CPU 사용량 증가
 
 **0.5초 (기본값)**:
+
 - 균형잡힌 설정
 - 대부분의 사용자에게 권장
 
 **1.0초 이상**:
+
 - 장점: 배터리/CPU 절약
 - 단점: 약간의 지연
 
@@ -149,6 +163,7 @@ python3.11 -m pip install pix2tex
 ### 지원되는 LaTeX 요소
 
 #### 완벽 지원
+
 - 기본 수식: `x^2`, `\frac{a}{b}`
 - 그리스 문자: `\alpha`, `\beta`
 - 적분/미분: `\int`, `\frac{d}{dx}`
@@ -156,6 +171,7 @@ python3.11 -m pip install pix2tex
 - 합/곱: `\sum`, `\prod`
 
 #### 제한적 지원
+
 - 복잡한 다이어그램
 - 손글씨
 - 매우 작은 글씨
@@ -171,6 +187,7 @@ python3.11 -m pip install pix2tex
 ### 피드백
 
 문제 발생 시:
+
 1. GitHub Issues에 보고
 2. 로그 확인: Console.app에서 "LaTeXClipboardConverter" 검색
 3. 스크린샷과 함께 상세 설명 제공

@@ -50,6 +50,12 @@ conda install -c conda-forge pix2tex
 3. Drag the app to Applications folder
 4. Eject the DMG
 
+> **Note for macOS Security**: Since this app is not signed by a registered Apple developer, you may see a "Malicious software" warning. To open it:
+> 1. Right-click (or Control-click) the app in your Applications folder.
+> 2. Select **Open** from the menu.
+> 3. Click **Open** again in the dialog box.
+> 4. After this, the app will open normally.
+
 #### Option B: Build from Source
 
 ```bash
@@ -97,6 +103,7 @@ If you see "pix2tex is ready!", you're good to go!
 ### "Python not installed" error
 
 Install Python 3:
+
 ```bash
 # Using Homebrew
 brew install python3
@@ -158,6 +165,7 @@ LaTeXClipboardConverter/
 ## Architecture
 
 Built with:
+
 - **Swift**: Native macOS development
 - **SwiftUI**: Modern UI framework
 - **NSPasteboard**: Clipboard monitoring
